@@ -84,7 +84,7 @@ module.exports = {
       // https://webpack.js.org/configuration/devtool/#development
       .when(process.env.NODE_ENV === 'development',
       //通常建议开发时保持 eval 配置，以增加构建速度，当出现需要源码调试排查问题时改为 source-map
-        config => config.devtool('eval')
+        config => config.devtool('source-map')
       )
 
     config
