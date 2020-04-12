@@ -62,17 +62,20 @@ export const constantRoutes = [
 export const asyncRoutes = [
   {
     path: '/book',
+    name: 'book',
     component: Layout,
     redirect: '/book/create',
     meta: { title: '管理图书', icon: 'edit', roles: ['admin', 'editor'] },
     children: [
       {
         path: '/book/create',
+        name: '/book/create',
         component: () => import('@/views/book/create'),
         meta: { title: '添加图书', icon: 'edit', roles: ['admin'] }
       },
       {
         path: '/book/create2',
+        name: '/book/create2',
         component: () => import('@/views/book/create'),
         meta: { title: '编辑图书', icon: 'edit', roles: ['editor'] }
       }
