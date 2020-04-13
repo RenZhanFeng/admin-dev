@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   name: 'Login',
   data() {
@@ -113,13 +112,6 @@ export default {
       immediate: true
     }
   },
-  created() {
-    const url = 'http://book.youbaobao.xyz:18082/user/login'
-    axios.get(url).then(response => {
-      console.log(response)
-    })
-  },
-
   mounted() {
     if (this.loginForm.username === '') {
       this.$refs.username.focus()

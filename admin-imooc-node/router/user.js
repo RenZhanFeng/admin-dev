@@ -1,16 +1,24 @@
 const express = require('express')
+const Result = require('../model/Result')
+const { login } = require('../services/user')
 
 const router = express.Router()
+
 
 router.get('/info', function (req, res, next) {
   res.json('user info...')
 })
 
-router.get('/login', function (req, res, next) {
-  console.log('/user/login', req.body)
-  res.json({
-    code: 0,
-    msg: '登录成功'
+router.post('/login', function (req, res, next) {
+  const username = req.body.username
+  const password = req.body.password
+
+  login(username, password).then(user => {
+    if (!user || user.length === 0) {
+      new Result('登录失败').fail(res)
+    } else {
+      new Result('登录成功').success(res)
+    }
   })
 })
 
