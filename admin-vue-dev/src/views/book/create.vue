@@ -68,11 +68,92 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+
   data() {
     return {
       isCollapse: false
     }
+  },
+  created() {
+    // const url = "https://test.youbaobao.xyz:18081/book/home/v2";
+    // axios.get(url, {
+    //   params: {openId: 1234},
+    //   headers:{token:'abcd'}
+    //   })
+    //   .then(response => {
+    //     console.log(response);
+    //   }).catch(err=>{
+    //     console.log(err)
+    //   });
+
+    // const url = "/book/home/v2";
+    // const request = axios.create({
+    //   baseURL: "https://test.youbaobao.xyz:18081",
+    //   timeout: 5000
+    // });
+    // request({
+    //   url,
+    //   methods: "get",
+    //   params: {
+    //     openId: 1234
+    //   },
+    //   headers:{token:'1232132132132132'}
+    // }).then(response => {
+    //   console.log(response);
+    // });
+
+    const WhiteUrl = ['/login', '']
+    const url = '/book/home/v2'
+    const request = axios.create({
+      baseURL: 'https://test.youbaobao.xyz:18081',
+      timeout: 5000
+    })
+    request.interceptors.request.use(
+      config => {
+        const url = config.url.replace(config.baseURL, '')
+        if (WhiteUrl.some(wl => url === wl)) {
+          return config
+        } else {
+          // throw new Error('aaa')
+          config.headers['token'] = '123321123321'
+          return config
+        }
+      },
+      error => {
+        Promise.reject(err)
+      }
+    )
+
+    request.interceptors.response.use(
+      response => {
+        const res = response.data
+        if (res.error_code === 0) {
+          return res
+        } else {
+          Promise.reject(res.msg)
+        }
+      },
+      err => {
+        Promise.reject(err)
+      }
+    )
+
+    request({
+      url,
+      methods: 'get',
+      params: {
+        openId: 1234
+      },
+      headers: { token: 'aaaaaaaaaaaaaaaaaaa' }
+    })
+      .then(response => {
+        console.log(response)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   },
   methods: {
     handleSelect(key, keyPath) {
