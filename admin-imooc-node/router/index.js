@@ -1,7 +1,6 @@
 const express = require('express')
 const boom = require('boom')
 const userRouter = require('./user')
-const { CODE_ERROR } = require('../utils/constant')
 const jwtAuth = require('./jwt')
 const Result = require('../model/Result')
 
@@ -25,7 +24,7 @@ router.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
     new Result(null, 'Token验证失败', {
       error: err.status,
-      errorMsg: err.name
+      errorMsg: err.message
     }).expired(res.status(err.status))
   } else {
     const msg = (err && err.message) || '系统错误'
